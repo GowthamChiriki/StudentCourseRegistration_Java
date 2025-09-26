@@ -42,7 +42,7 @@ public class StudentService {
     }
 
     //List all student
-    public List<Student> getAllStudent(){
+    public List<Student> getAllStudents(){
         return studentDAO.findAll();
     }
 

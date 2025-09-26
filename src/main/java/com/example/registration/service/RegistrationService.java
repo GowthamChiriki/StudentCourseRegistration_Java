@@ -30,13 +30,13 @@ public class RegistrationService {
     }
 
     //List registrations by a student
-    public List<Registration> getRegistrationByStudent(Long studentId){
+    public List<Registration> getRegistrationsByStudent(Long studentId){
         Student student = studentService.getStudent(studentId);
         return registrationDAO.findByStudent(student);
     }
 
     //List registrations by course
-    public List<Registration> getRegistrationByCourse(Long courseId){
+    public List<Registration> getRegistrationsByCourse(Long courseId){
         Course course = courseService.getCourse(courseId);
         return registrationDAO.finByCourse(course);
     }
@@ -54,4 +54,5 @@ public class RegistrationService {
     public List<Registration> getAllRegistrations(){
         return registrationDAO.findAll();
     }
+
 }

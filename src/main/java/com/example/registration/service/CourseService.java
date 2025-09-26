@@ -41,7 +41,7 @@ public class CourseService {
     }
 
     //List all course
-    public List<Course> getALlCourses(){
+    public List<Course> getAllCourses(){
         return courseDAO.findAll();
     }
 }
