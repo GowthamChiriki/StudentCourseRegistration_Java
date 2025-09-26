@@ -24,8 +24,9 @@ public class Course {
 
     //mappings and relationships
     //One-To-Many relationship with Registration
-    @OneToMany(mappedBy = "course_id", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Registration> registrations = new HashSet<>();
+
 
 
     //Constructors
@@ -36,6 +37,8 @@ public class Course {
         this.description = description;
         this.credits = credits;
     }
+
+
 
     //Getters and Setters
     public Long getId(){return id;}
@@ -60,7 +63,7 @@ public class Course {
                 "+----+----------------------+----------------------------+---------+\n" +
                         "| ID | Title                | Description                | Credits |\n" +
                         "+----+----------------------+----------------------------+---------+\n" +
-                        "| %-2d | %-20s | %-26s | %-7d |\n" +
+                        "| %-2d | %-20s | %-60s | %-7d |\n" +
                         "+----+----------------------+----------------------------+---------+",
                 id,
                 title,

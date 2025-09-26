@@ -38,7 +38,7 @@ public class RegistrationService {
     //List registrations by course
     public List<Registration> getRegistrationsByCourse(Long courseId){
         Course course = courseService.getCourse(courseId);
-        return registrationDAO.finByCourse(course);
+        return registrationDAO.findByCourse(course);
     }
 
     //Delete registration

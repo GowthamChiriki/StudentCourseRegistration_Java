@@ -4,56 +4,55 @@ import com.example.registration.entity.Course;
 import com.example.registration.entity.Registration;
 import com.example.registration.entity.Student;
 
-import javax.imageio.spi.RegisterableService;
 import java.util.List;
 
 public class RegistrationDAO extends BaseDAO<Registration> {
-    //To save registration
-    public void save(Registration registration){
+
+    // Save registration
+    public void save(Registration registration) {
         executeVoid(session -> session.persist(registration));
     }
 
-    //To delete the registration
-    public void delete(Registration registration){
+    // Delete registration
+    public void delete(Registration registration) {
         executeVoid(session -> session.remove(registration));
     }
 
-    //To find the registration by id
-    public Registration findById(Long id){
+    // Find registration by ID
+    public Registration findById(Long id) {
         return execute(session -> session.get(Registration.class, id));
     }
 
-    //Fetch all registrations
-    public List<Registration> findAll(){
-        return execute(session -> session.createQuery("FROM Registration ", Registration.class).list());
+    // Fetch all registrations with student and course initialized
+    public List<Registration> findAll() {
+        return execute(session -> session.createQuery(
+                        "SELECT r FROM Registration r JOIN FETCH r.student JOIN FETCH r.course", Registration.class)
+                .list());
     }
 
-    //Find by Student
-    public List<Registration> findByStudent(Student student){
+    // Find registrations by student (with student and course fetched)
+    public List<Registration> findByStudent(Student student) {
         return execute(session -> session.createQuery(
-                "FROM Registration r WHERE r.student = :student", Registration.class)
+                        "SELECT r FROM Registration r JOIN FETCH r.student JOIN FETCH r.course WHERE r.student = :student", Registration.class)
                 .setParameter("student", student)
-                .list()
-        );
+                .getResultList());
     }
 
-    //Find by Course
-    public List<Registration> finByCourse(Course course){
+    // Find registrations by course (with student and course fetched)
+    public List<Registration> findByCourse(Course course) {
         return execute(session -> session.createQuery(
-                "FROM Registration r WHERE r.course = :course", Registration.class)
+                        "SELECT r FROM Registration r JOIN FETCH r.student JOIN FETCH r.course WHERE r.course = :course", Registration.class)
                 .setParameter("course", course)
-                .list()
-        );
+                .getResultList());
     }
 
-    //Check duplicate registration
-    public boolean exists(Student student, Course course){
+    // Check duplicate registration for same student-course pair
+    public boolean exists(Student student, Course course) {
         return execute(session -> !session.createQuery(
-                "FROM Registration r WHERE r.student = :student AND r.course = :course", Registration.class)
+                        "FROM Registration r WHERE r.student = :student AND r.course = :course", Registration.class)
                 .setParameter("student", student)
                 .setParameter("course", course)
                 .list()
-                .isEmpty()
-        );
+                .isEmpty());
     }
 }
